@@ -29,10 +29,10 @@ namespace ApiPaginationDemo.Controllers
         {
             const int maxPageSize = 10;
 
-            ValidatePageRequest(page, pageSize, maxPageSize, out List<string> errors);
+            ValidatePageRequest(page, pageSize, maxPageSize, out List<string> validationErrors);
 
-            if (errors.Count > 0)
-                return BadRequest(string.Join(' ', errors));
+            if (validationErrors.Count > 0)
+                return BadRequest(string.Join(' ', validationErrors));
 
             var request = new GetStudentsRequest
             {
@@ -46,15 +46,15 @@ namespace ApiPaginationDemo.Controllers
             return _studentRepository.GetStudents(request);
         }
 
-        private void ValidatePageRequest(int page, int pageSize, int maxPageSize, out List<string> errors)
+        private void ValidatePageRequest(int page, int pageSize, int maxPageSize, out List<string> validationErrors)
         {
-            errors = new List<string>();
+            validationErrors = new List<string>();
             if (page <= 0)
-                errors.Add($"Parameter '{nameof(page)}' is required and must be greater than 0.");
+                validationErrors.Add($"Parameter '{nameof(page)}' is required and must be greater than 0.");
             if (pageSize <= 0)
-                errors.Add($"Parameter '{nameof(pageSize)}' is required and must be greater than 0.");
+                validationErrors.Add($"Parameter '{nameof(pageSize)}' is required and must be greater than 0.");
             else if (pageSize > maxPageSize)
-                errors.Add($"Parameter '{nameof(pageSize)}' cannot be greater then {maxPageSize}.");
+                validationErrors.Add($"Parameter '{nameof(pageSize)}' cannot be greater then {maxPageSize}.");
         }
     }
 }

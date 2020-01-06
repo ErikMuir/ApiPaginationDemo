@@ -34,13 +34,10 @@ namespace ApiPaginationDemo
 
         public PageResponse<Student> GetStudents(GetStudentsRequest request)
         {
-            var limit = request.PageSize;
-            var offset = limit * (request.Page - 1);
-
             var query = _students.Where(student => student.InstructorId == request.InstructorId);
 
             var totalCount = query.Count();
-            var data = query.Skip(offset).Take(limit).ToList();
+            var data = query.Paged(request).ToList();
 
             return new PageResponse<Student>(request, data, totalCount);
         }

@@ -20,8 +20,7 @@ namespace ApiPaginationDemo
         {
             if (_students == null)
             {
-                var json = File.ReadAllText("students.json");
-                var stream = File.OpenRead("students.json");
+                var json = File.ReadAllText("Data/students.json");
                 _students = JsonSerializer.Deserialize<List<Student>>(json).AsQueryable();
             }
         }

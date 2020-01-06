@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiPaginationDemo.Controllers
+namespace ApiPaginationDemo
 {
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]

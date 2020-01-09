@@ -6,26 +6,34 @@ namespace ApiPaginationDemo
 {
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
+    [ApiVersion("3.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class InvoicesController : ControllerBase
     {
-        private readonly IStudentRepository _studentRepository;
+        private readonly IInvoiceRepository _studentRepository;
 
-        public StudentsController(IStudentRepository studentsRepository)
+        public InvoicesController(IInvoiceRepository studentsRepository)
         {
             _studentRepository = studentsRepository;
         }
 
-        [HttpGet("{instructorId}")]
-        public List<Student> Get(Guid instructorId)
+        [HttpGet("{customerId}")]
+        public List<Invoice> Get_NoPagination(Guid customerId)
         {
-            return _studentRepository.GetStudents(instructorId);
+            return _studentRepository.GetInvoices_NoPagination(customerId);
         }
 
         [MapToApiVersion("2.0")]
-        [HttpGet("{instructorId}")]
-        public ActionResult<PageResponse<Student>> Get(Guid instructorId, int page, int pageSize)
+        [HttpGet("{customerId}")]
+        public List<Invoice> Get_QuickAndDirtyPagination(Guid customerId, int page, int pageSize)
+        {
+            return _studentRepository.GetInvoices_QuickAndDirtyPagination(customerId, page, pageSize);
+        }
+
+        [MapToApiVersion("3.0")]
+        [HttpGet("{customerId}")]
+        public ActionResult<PageResponse<Invoice>> Get_RobustPagination(Guid customerId, int page, int pageSize)
         {
             const int maxPageSize = 10;
 
@@ -34,16 +42,16 @@ namespace ApiPaginationDemo
             if (validationErrors.Count > 0)
                 return BadRequest(string.Join(' ', validationErrors));
 
-            var request = new GetStudentsRequest
+            var request = new GetInvoicesRequest
             {
-                InstructorId = instructorId,
+                CustomerId = customerId,
                 Page = page,
                 PageSize = pageSize,
                 Host = Request.Host.ToUriComponent(),
                 Path = Request.Path.ToUriComponent(),
             };
 
-            return _studentRepository.GetStudents(request);
+            return _studentRepository.GetInvoices_RobustPagination(request);
         }
 
         private void ValidatePageRequest(int page, int pageSize, int maxPageSize, out List<string> validationErrors)

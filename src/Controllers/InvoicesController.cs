@@ -11,24 +11,24 @@ namespace ApiPaginationDemo
     [ApiController]
     public class InvoicesController : ControllerBase
     {
-        private readonly IInvoiceRepository _studentRepository;
+        private readonly IInvoiceRepository _invoiceRepository;
 
-        public InvoicesController(IInvoiceRepository studentsRepository)
+        public InvoicesController(IInvoiceRepository invoiceRepository)
         {
-            _studentRepository = studentsRepository;
+            _invoiceRepository = invoiceRepository;
         }
 
         [HttpGet("{customerId}")]
         public List<Invoice> Get_NoPagination(Guid customerId)
         {
-            return _studentRepository.GetInvoices_NoPagination(customerId);
+            return _invoiceRepository.GetInvoices_NoPagination(customerId);
         }
 
         [MapToApiVersion("2.0")]
         [HttpGet("{customerId}")]
         public List<Invoice> Get_QuickAndDirtyPagination(Guid customerId, int page, int pageSize)
         {
-            return _studentRepository.GetInvoices_QuickAndDirtyPagination(customerId, page, pageSize);
+            return _invoiceRepository.GetInvoices_QuickAndDirtyPagination(customerId, page, pageSize);
         }
 
         [MapToApiVersion("3.0")]
@@ -51,7 +51,7 @@ namespace ApiPaginationDemo
                 Path = Request.Path.ToUriComponent(),
             };
 
-            return _studentRepository.GetInvoices_RobustPagination(request);
+            return _invoiceRepository.GetInvoices_RobustPagination(request);
         }
 
         private void ValidatePageRequest(int page, int pageSize, int maxPageSize, out List<string> validationErrors)

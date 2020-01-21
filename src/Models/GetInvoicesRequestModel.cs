@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiPaginationDemo
 {
-    public class GetInvoicesRequest : IPageRequest
+    public class GetInvoicesRequestModel : IPageRequest
     {
         private const int _defaultPage = 1;
         private const int _defaultPageSize = 10;
         private const int _maxPageSize = 50;
 
-        public GetInvoicesRequest()
+        public GetInvoicesRequestModel()
         {
             Page = _defaultPage;
             PageSize = _defaultPageSize;

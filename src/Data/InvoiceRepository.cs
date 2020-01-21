@@ -10,7 +10,7 @@ namespace ApiPaginationDemo
     {
         List<Invoice> GetInvoices_NoPagination(Guid customerId);
         List<Invoice> GetInvoices_QuickAndDirtyPagination(Guid customerId, int page, int pageSize);
-        List<Invoice> GetInvoices_RobustPagination(GetInvoicesRequest request, out int totalCount);
+        List<Invoice> GetInvoices_RobustPagination(GetInvoicesRequestModel requestModel, out int totalCount);
     }
 
     public class InvoiceRepository : IInvoiceRepository
@@ -44,11 +44,11 @@ namespace ApiPaginationDemo
                 .ToList();
         }
 
-        public List<Invoice> GetInvoices_RobustPagination(GetInvoicesRequest request, out int totalCount)
+        public List<Invoice> GetInvoices_RobustPagination(GetInvoicesRequestModel requestModel, out int totalCount)
         {
-            var query = _dbContext.Invoices.Where(x => x.CustomerId == request.CustomerId);
+            var query = _dbContext.Invoices.Where(x => x.CustomerId == requestModel.CustomerId);
             totalCount = query.Count();
-            return query.Paged(request).ToList();
+            return query.Paged(requestModel).ToList();
         }
     }
 }

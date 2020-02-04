@@ -31,7 +31,7 @@ namespace ApiPaginationDemo
         public string Base { get; }
         public string Self => GetPageUrl(CurrentPage);
         public string First => GetPageUrl(1);
-        public string Last => GetPageUrl(PageCount);
+        public string Last => PageCount == 1 ? null : GetPageUrl(PageCount);
         public string Prev => CurrentPage > 1 ? GetPageUrl(CurrentPage - 1) : null;
         public string Next => CurrentPage < PageCount ? GetPageUrl(CurrentPage + 1) : null;
         public List<T> Data { get; private set; }

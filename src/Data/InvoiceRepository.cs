@@ -46,9 +46,9 @@ namespace ApiPaginationDemo
 
         public List<Invoice> GetInvoices_RobustPagination(GetInvoicesRequestModel requestModel, out int totalCount)
         {
-            var query = _dbContext.Invoices.Where(x => x.CustomerId == requestModel.CustomerId);
-            totalCount = query.Count();
-            return query.Paged(requestModel).ToList();
+            var baseQuery = _dbContext.Invoices.Where(x => x.CustomerId == requestModel.CustomerId);
+            totalCount = baseQuery.Count();
+            return baseQuery.Paged(requestModel).ToList();
         }
     }
 }

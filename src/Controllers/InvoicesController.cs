@@ -35,8 +35,8 @@ namespace ApiPaginationDemo
         [HttpGet("{customerId}")]
         public PageResponse<Invoice> Get_RobustPagination([FromQuery] GetInvoicesRequestModel requestModel)
         {
-            var data = _invoiceRepository.GetInvoices_RobustPagination(requestModel, out int totalCount);
-            return new PageResponse<Invoice>(requestModel, Request, data, totalCount);
+            var data = _invoiceRepository.GetInvoices_RobustPagination(requestModel);
+            return new PageResponse<Invoice>(requestModel, Request, data.TotalCount, data.Invoices);
         }
     }
 }

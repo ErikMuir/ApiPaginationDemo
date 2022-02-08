@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiPaginationDemo
 {
-    [ApiVersion("1.0")]
-    [ApiVersion("2.0")]
-    [ApiVersion("3.0")]
+    [ApiVersion("1")]
+    [ApiVersion("2")]
+    [ApiVersion("3")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class InvoicesController : ControllerBase
@@ -18,20 +18,21 @@ namespace ApiPaginationDemo
             _invoiceRepository = invoiceRepository;
         }
 
+        [MapToApiVersion("1")]
         [HttpGet("{customerId}")]
         public List<Invoice> Get_NoPagination(Guid customerId)
         {
             return _invoiceRepository.GetInvoices_NoPagination(customerId);
         }
 
-        [MapToApiVersion("2.0")]
+        [MapToApiVersion("2")]
         [HttpGet("{customerId}")]
         public List<Invoice> Get_QuickAndDirtyPagination(Guid customerId, int page, int pageSize)
         {
             return _invoiceRepository.GetInvoices_QuickAndDirtyPagination(customerId, page, pageSize);
         }
 
-        [MapToApiVersion("3.0")]
+        [MapToApiVersion("3")]
         [HttpGet("{customerId}")]
         public PageResponse<Invoice> Get_RobustPagination([FromQuery] GetInvoicesRequestModel requestModel)
         {

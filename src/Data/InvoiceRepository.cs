@@ -15,13 +15,14 @@ namespace ApiPaginationDemo
 
     public class InvoiceRepository : IInvoiceRepository
     {
+        private const string JsonDataPath = @"Data/invoices.json";
         private static JsonDbContext _dbContext;
 
         static InvoiceRepository()
         {
             if (_dbContext == null)
             {
-                var json = File.ReadAllText("Data/invoices.json");
+                var json = File.ReadAllText(JsonDataPath);
                 var invoices = JsonSerializer.Deserialize<List<Invoice>>(json).AsQueryable();
                 _dbContext = new JsonDbContext { Invoices = invoices };
             }

@@ -3,39 +3,47 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using ApiPaginationDemo.Extensions;
+using ApiPaginationDemo.Models;
 
-namespace ApiPaginationDemo
+namespace ApiPaginationDemo.Data
 {
     public interface IInvoiceRepository
     {
-        List<Invoice> GetInvoices_NoPagination(Guid customerId);
-        List<Invoice> GetInvoices_QuickAndDirtyPagination(Guid customerId, int page, int pageSize);
-        (int TotalCount, List<Invoice> Invoices) GetInvoices_RobustPagination(GetInvoicesRequestModel requestModel);
+        List<Invoice> Get_NoPagination(Guid customerId);
+        List<Invoice> Get_QuickAndDirtyPagination(Guid customerId, int page, int pageSize);
+        (int TotalCount, List<Invoice> Invoices) Get_RobustPagination(GetInvoicesRequestModel requestModel);
     }
 
     public class InvoiceRepository : IInvoiceRepository
     {
         private const string JsonDataPath = @"Data/invoices.json";
         private static JsonDbContext _dbContext;
+        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true,
+        };
 
         static InvoiceRepository()
         {
             if (_dbContext == null)
             {
                 var json = File.ReadAllText(JsonDataPath);
-                var invoices = JsonSerializer.Deserialize<List<Invoice>>(json).AsQueryable();
+                var invoices = JsonSerializer.Deserialize<List<Invoice>>(json, _options).AsQueryable();
                 _dbContext = new JsonDbContext { Invoices = invoices };
             }
         }
 
-        public List<Invoice> GetInvoices_NoPagination(Guid customerId)
+        public List<Invoice> Get_NoPagination(Guid customerId)
         {
             return _dbContext.Invoices
                 .Where(x => x.CustomerId == customerId)
                 .ToList();
         }
 
-        public List<Invoice> GetInvoices_QuickAndDirtyPagination(Guid customerId, int page, int pageSize)
+        public List<Invoice> Get_QuickAndDirtyPagination(Guid customerId, int page, int pageSize)
         {
             var offset = pageSize * (page - 1);
             return _dbContext.Invoices
@@ -45,7 +53,7 @@ namespace ApiPaginationDemo
                 .ToList();
         }
 
-        public (int TotalCount, List<Invoice> Invoices) GetInvoices_RobustPagination(GetInvoicesRequestModel requestModel)
+        public (int TotalCount, List<Invoice> Invoices) Get_RobustPagination(GetInvoicesRequestModel requestModel)
         {
             var baseQuery = _dbContext.Invoices.Where(x => x.CustomerId == requestModel.CustomerId);
             return (baseQuery.Count(), baseQuery.Paged(requestModel).ToList());

@@ -1,4 +1,4 @@
-namespace ApiPaginationDemo
+namespace ApiPaginationDemo.Models
 {
     public interface IPageRequest
     {

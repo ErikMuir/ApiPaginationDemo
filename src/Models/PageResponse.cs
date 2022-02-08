@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 
-namespace ApiPaginationDemo
+namespace ApiPaginationDemo.Models
 {
     public class PageResponse<T>
     {

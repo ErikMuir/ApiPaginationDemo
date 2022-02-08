@@ -1,6 +1,7 @@
 using System.Linq;
+using ApiPaginationDemo.Models;
 
-namespace ApiPaginationDemo
+namespace ApiPaginationDemo.Data
 {
     public class JsonDbContext
     {

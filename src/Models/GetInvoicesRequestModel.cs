@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiPaginationDemo
+namespace ApiPaginationDemo.Models
 {
     public class GetInvoicesRequestModel : IPageRequest
     {

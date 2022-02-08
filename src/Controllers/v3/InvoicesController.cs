@@ -1,5 +1,5 @@
-using System;
-using System.Collections.Generic;
+using ApiPaginationDemo.Data;
+using ApiPaginationDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiPaginationDemo.Controllers.v3
@@ -19,7 +19,7 @@ namespace ApiPaginationDemo.Controllers.v3
         [HttpGet("{customerId}")]
         public PageResponse<Invoice> Get_RobustPagination([FromQuery] GetInvoicesRequestModel requestModel)
         {
-            var data = _invoiceRepository.GetInvoices_RobustPagination(requestModel);
+            var data = _invoiceRepository.Get_RobustPagination(requestModel);
             return new PageResponse<Invoice>(requestModel, Request, data.TotalCount, data.Invoices);
         }
     }

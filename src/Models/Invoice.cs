@@ -1,6 +1,6 @@
 using System;
 
-namespace ApiPaginationDemo
+namespace ApiPaginationDemo.Models
 {
     public class Invoice
     {

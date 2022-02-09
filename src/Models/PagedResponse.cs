@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace ApiPaginationDemo.Models
 {
-    public class PageResponse<T>
+    public class PagedResponse<T>
     {
         private string _path;
 
-        public PageResponse(IPageRequest pageRequest, HttpRequest httpRequest, int totalCount, List<T> data)
+        public PagedResponse(IPageRequest pageRequest, HttpRequest httpRequest, int totalCount, List<T> data)
         {
             Data = data;
             TotalCount = totalCount;

@@ -4,7 +4,7 @@ using ApiPaginationDemo.Data;
 using ApiPaginationDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiPaginationDemo.Controllers.v1
+namespace ApiPaginationDemo.Controllers.V1
 {
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -19,9 +19,9 @@ namespace ApiPaginationDemo.Controllers.v1
         }
 
         [HttpGet("{customerId}")]
-        public List<Invoice> Get(Guid customerId)
+        public ActionResult<List<Invoice>> Get(Guid customerId)
         {
-            return _invoiceRepository.Get_NoPagination(customerId);
+            return _invoiceRepository.Get(customerId);
         }
     }
 }

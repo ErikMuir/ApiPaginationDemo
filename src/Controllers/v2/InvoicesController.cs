@@ -4,7 +4,7 @@ using ApiPaginationDemo.Data;
 using ApiPaginationDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiPaginationDemo.Controllers.v2
+namespace ApiPaginationDemo.Controllers.V2
 {
     [ApiVersion("2")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -19,9 +19,9 @@ namespace ApiPaginationDemo.Controllers.v2
         }
 
         [HttpGet("{customerId}")]
-        public List<Invoice> Get_QuickAndDirtyPagination(Guid customerId, int page, int pageSize)
+        public ActionResult<List<Invoice>> Get(Guid customerId, int page, int pageSize)
         {
-            return _invoiceRepository.Get_QuickAndDirtyPagination(customerId, page, pageSize);
+            return _invoiceRepository.Get(customerId, page, pageSize);
         }
     }
 }

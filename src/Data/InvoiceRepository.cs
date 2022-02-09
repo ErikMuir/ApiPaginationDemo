@@ -10,9 +10,9 @@ namespace ApiPaginationDemo.Data
 {
     public interface IInvoiceRepository
     {
-        List<Invoice> Get_NoPagination(Guid customerId);
-        List<Invoice> Get_QuickAndDirtyPagination(Guid customerId, int page, int pageSize);
-        (int TotalCount, List<Invoice> Invoices) Get_RobustPagination(GetInvoicesRequestModel requestModel);
+        List<Invoice> Get(Guid customerId);
+        List<Invoice> Get(Guid customerId, int page, int pageSize);
+        (int TotalCount, List<Invoice> Invoices) Get(GetInvoicesRequestModel requestModel);
     }
 
     public class InvoiceRepository : IInvoiceRepository
@@ -21,9 +21,7 @@ namespace ApiPaginationDemo.Data
         private static JsonDbContext _dbContext;
         private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = true,
         };
 
         static InvoiceRepository()
@@ -36,14 +34,16 @@ namespace ApiPaginationDemo.Data
             }
         }
 
-        public List<Invoice> Get_NoPagination(Guid customerId)
+        // no pagination
+        public List<Invoice> Get(Guid customerId)
         {
             return _dbContext.Invoices
                 .Where(x => x.CustomerId == customerId)
                 .ToList();
         }
 
-        public List<Invoice> Get_QuickAndDirtyPagination(Guid customerId, int page, int pageSize)
+        // quick and dirty pagination
+        public List<Invoice> Get(Guid customerId, int page, int pageSize)
         {
             var offset = pageSize * (page - 1);
             return _dbContext.Invoices
@@ -53,7 +53,8 @@ namespace ApiPaginationDemo.Data
                 .ToList();
         }
 
-        public (int TotalCount, List<Invoice> Invoices) Get_RobustPagination(GetInvoicesRequestModel requestModel)
+        // accomodating pagination
+        public (int TotalCount, List<Invoice> Invoices) Get(GetInvoicesRequestModel requestModel)
         {
             var baseQuery = _dbContext.Invoices.Where(x => x.CustomerId == requestModel.CustomerId);
             return (baseQuery.Count(), baseQuery.Paged(requestModel).ToList());

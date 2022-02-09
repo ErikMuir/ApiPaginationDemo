@@ -2,7 +2,7 @@ using ApiPaginationDemo.Data;
 using ApiPaginationDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiPaginationDemo.Controllers.v3
+namespace ApiPaginationDemo.Controllers.V3
 {
     [ApiVersion("3")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -17,10 +17,10 @@ namespace ApiPaginationDemo.Controllers.v3
         }
 
         [HttpGet("{customerId}")]
-        public PageResponse<Invoice> Get_RobustPagination([FromQuery] GetInvoicesRequestModel requestModel)
+        public ActionResult<PagedResponse<Invoice>> Get([FromQuery] GetInvoicesRequestModel requestModel)
         {
-            var data = _invoiceRepository.Get_RobustPagination(requestModel);
-            return new PageResponse<Invoice>(requestModel, Request, data.TotalCount, data.Invoices);
+            var data = _invoiceRepository.Get(requestModel);
+            return new PagedResponse<Invoice>(requestModel, Request, data.TotalCount, data.Invoices);
         }
     }
 }

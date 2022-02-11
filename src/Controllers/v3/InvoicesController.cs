@@ -17,10 +17,10 @@ namespace ApiPaginationDemo.Controllers.V3
         }
 
         [HttpGet("{customerId}")]
-        public ActionResult<PagedResponse<Invoice>> Get([FromQuery] GetInvoicesRequestModel requestModel)
+        public ActionResult<PagedResponse<Invoice>> Get([FromQuery] GetInvoicesRequestModel model)
         {
-            var data = _invoiceRepository.Get(requestModel);
-            return new PagedResponse<Invoice>(requestModel, Request, data.TotalCount, data.Invoices);
+            var result = _invoiceRepository.Get(model);
+            return new PagedResponse<Invoice>(model, Request, result.TotalCount, result.Items);
         }
     }
 }

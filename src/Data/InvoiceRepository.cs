@@ -12,7 +12,7 @@ namespace ApiPaginationDemo.Data
     {
         List<Invoice> Get(Guid customerId);
         List<Invoice> Get(Guid customerId, int page, int pageSize);
-        (int TotalCount, List<Invoice> Invoices) Get(GetInvoicesRequestModel requestModel);
+        PagedResult<Invoice> Get(GetInvoicesRequestModel requestModel);
     }
 
     public class InvoiceRepository : IInvoiceRepository
@@ -54,10 +54,12 @@ namespace ApiPaginationDemo.Data
         }
 
         // accomodating pagination
-        public (int TotalCount, List<Invoice> Invoices) Get(GetInvoicesRequestModel requestModel)
+        public PagedResult<Invoice> Get(GetInvoicesRequestModel model)
         {
-            var baseQuery = _dbContext.Invoices.Where(x => x.CustomerId == requestModel.CustomerId);
-            return (baseQuery.Count(), baseQuery.Paged(requestModel).ToList());
+            var baseQuery = _dbContext.Invoices.Where(x => x.CustomerId == model.CustomerId);
+            var totalCount = baseQuery.Count();
+            var invoices = baseQuery.Paged(model).ToList();
+            return new PagedResult<Invoice>(totalCount, invoices);
         }
     }
 }

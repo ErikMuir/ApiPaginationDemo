@@ -1,7 +1,7 @@
 using System.Linq;
 using ApiPaginationDemo.Models;
 
-namespace ApiPaginationDemo.Extensions
+namespace ApiPaginationDemo.Helpers
 {
     public static class IQueryableExtensions
     {

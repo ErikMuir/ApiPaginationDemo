@@ -4,13 +4,13 @@ namespace ApiPaginationDemo.Models
 {
     public class PagedResult<T>
     {
-        public PagedResult(int totalCount, List<T> items)
+        public PagedResult(int totalCount, List<T> data)
         {
             TotalCount = totalCount;
-            Items = items;
+            Data = data ?? new List<T>();
         }
 
         public int TotalCount { get; }
-        public List<T> Items { get; }
+        public List<T> Data { get; }
     }
 }

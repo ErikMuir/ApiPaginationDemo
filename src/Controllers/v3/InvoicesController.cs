@@ -20,7 +20,7 @@ namespace ApiPaginationDemo.Controllers.V3
         public ActionResult<PagedResponse<Invoice>> Get([FromQuery] GetInvoicesRequestModel model)
         {
             var result = _invoiceRepository.Get(model);
-            return new PagedResponse<Invoice>(model, Request, result.TotalCount, result.Items);
+            return new PagedResponse<Invoice>(model, Request, result);
         }
     }
 }

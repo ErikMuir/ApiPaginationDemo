@@ -1,8 +1,7 @@
-namespace ApiPaginationDemo.Models
+namespace ApiPaginationDemo.Models;
+
+public interface IPageRequest
 {
-    public interface IPageRequest
-    {
-        int Page { get; set; }
-        int PageSize { get; set; }
-    }
+    int Page { get; set; }
+    int PageSize { get; set; }
 }

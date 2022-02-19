@@ -1,10 +1,9 @@
 using System.Linq;
 using ApiPaginationDemo.Models;
 
-namespace ApiPaginationDemo.Data
+namespace ApiPaginationDemo.Data;
+
+public class JsonDbContext
 {
-    public class JsonDbContext
-    {
-        public IQueryable<Invoice> Invoices { get; set; }
-    }
+    public IQueryable<Invoice> Invoices { get; set; }
 }
